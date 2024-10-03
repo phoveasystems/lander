@@ -16,6 +16,7 @@
             align-items: center;
             background-color: white;
             font-family: 'Montserrat', sans-serif;
+            touch-action: none;
         }
         .eye-container {
             width: 200px;
@@ -93,13 +94,13 @@
         const eye = document.getElementById('eye');
         const iris = document.getElementById('iris');
 
-        document.addEventListener('mousemove', (e) => {
+        function moveEye(clientX, clientY) {
             const eyeRect = eye.getBoundingClientRect();
             const eyeCenterX = eyeRect.left + eyeRect.width / 2;
             const eyeCenterY = eyeRect.top + eyeRect.height / 2;
 
-            const deltaX = e.clientX - eyeCenterX;
-            const deltaY = e.clientY - eyeCenterY;
+            const deltaX = clientX - eyeCenterX;
+            const deltaY = clientY - eyeCenterY;
 
             const maxMovement = eyeRect.width / 12;
             const dampeningFactor = 0.5;
@@ -111,6 +112,22 @@
             const y = Math.sin(angle) * distance * dampeningFactor;
 
             iris.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Mouse event
+        document.addEventListener('mousemove', (e) => {
+            moveEye(e.clientX, e.clientY);
+        });
+
+        // Touch events
+        document.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent scrolling
+            moveEye(e.touches[0].clientX, e.touches[0].clientY);
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Prevent scrolling
+            moveEye(e.touches[0].clientX, e.touches[0].clientY);
         });
     </script>
 </body>
