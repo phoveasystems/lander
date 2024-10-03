@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>phovea systems, inc</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .eye-container {
+            width: 200px;
+            height: 200px;
+            background-color: #D1D5DB;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .eye {
+            width: 180px;
+            height: 180px;
+            background-color: #F3F4F6;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .iris {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #808080 0%, #404040 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.1s ease-out;
+        }
+        .pupil {
+            width: 80px;
+            height: 80px;
+            background-color: #1F2937;
+            border-radius: 50%;
+            position: relative;
+        }
+        .reflection {
+            width: 20px;
+            height: 20px;
+            background-color: #D1D5DB;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            opacity: 0.5;
+        }
+        footer {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: #4B5563;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="eye-container">
+        <div class="eye" id="eye">
+            <div class="iris" id="iris">
+                <div class="pupil">
+                    <div class="reflection"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>hello@phovea.io</p>
+    </footer>
+
+    <script>
+        const eye = document.getElementById('eye');
+        const iris = document.getElementById('iris');
+
+        document.addEventListener('mousemove', (e) => {
+            const eyeRect = eye.getBoundingClientRect();
+            const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+            const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+
+            const deltaX = e.clientX - eyeCenterX;
+            const deltaY = e.clientY - eyeCenterY;
+
+            const maxMovement = eyeRect.width / 12;
+            const dampeningFactor = 0.5;
+
+            const distance = Math.min(Math.sqrt(deltaX ** 2 + deltaY ** 2), maxMovement);
+            const angle = Math.atan2(deltaY, deltaX);
+
+            const x = Math.cos(angle) * distance * dampeningFactor;
+            const y = Math.sin(angle) * distance * dampeningFactor;
+
+            iris.style.transform = `translate(${x}px, ${y}px)`;
+        });
+    </script>
+</body>
+</html>
